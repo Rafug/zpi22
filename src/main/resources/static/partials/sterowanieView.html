@@ -1,0 +1,80 @@
+<div class="col-sm-12">
+     <div class="card">
+        <h3 class="card-header bg-info text-white">
+            Sterowanie Silnikiem
+        </h3>
+    </div>
+</div>
+
+
+<div class="col-sm-6">
+    <div class="card">
+        <div class="card-header">
+            Rozpoczęcie pracy silnika
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Start</h5>
+            <p class="card-text">Wprowadź częstotliwość rewersacji w milisekundach, <br> następnie naciśnij przycisk w celu uruchomienia silnika</p>
+            <div class='row'> <input type="text" id="ip2"/>
+                <button class="btn btn-success" ng-click="executeAsync()">Start</button> </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-sm-6">
+    <div class="card">
+        <div class="card-header">
+            Zatrzymanie silnika
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Stop</h5>
+            <p class="card-text">Naciśnij przycisk w celu <br> zatrzymania pracy silnika.</p>
+            <button class="btn btn-danger" ng-click="executeTwoAsyncWaitForBoth()">Stop</button>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="col-sm-4">
+    <div class="card">
+        <div class="card-header">
+            Rewersacja silnika
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Rewersuj</h5>
+            <p class="card-text">Naciśnij przycisk w celu dokonania rewersacji silnika.</p>
+            <button class="btn btn-primary" ng-click="executeTwoAsyncWaitForBoth()">Rewersuj</button>
+        </div>
+    </div>
+</div> -->
+
+<div class="col-sm-12">
+    <div class="card">
+        <h3 class="card-header bg-info text-white">
+           Monitorowanie Temperatury
+        </h3>
+    </div>
+
+
+
+</div>
+
+
+<div class="row">
+          <div class="col-lg-4">
+
+         <h1 style="font-size: 28px;"> {{myTest}} </h1>
+            <h2>Czujnik 1</h2>
+          </div>
+          <div class="col-lg-4">
+
+            <h1>{{myTest2}}</h1>
+            <h2>Czujnik 2</h2>
+          </div>
+          <div class="col-lg-4">
+            <img class="rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+            <h2>Czujnik 3</h2>
+          </div>
+        </div>

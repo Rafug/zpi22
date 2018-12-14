@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html  ng-app="myApp" ng-controller="masterCtrl" xmlns:ng-model="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <title>System do wyznaczania częstotliwości granicznej</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://code.angularjs.org/1.4.5/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/mainApp.js"></script>
+        <script src="js/controllers/masterCtrl.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+    </head>
+    <body background="http://www.naukaipostep.pl/wp-content/uploads/2012/01/1370477_67072439.jpg" style="overflow: hidden;">
+
+        <div >
+
+            <div class="title">
+                <header class="entry-header">
+                    <h1 class="entry-title">
+                        System informatyczny do zdalnego wyznaczania częstotliwości granicznej silnika elektrycznego z wielopunktową rejestracją temperatury
+                    </h1>
+                </header>
+            </div>
+
+
+            <div   ng-show="!$storage.zalogowany">
+
+
+
+
+                <div class="jx">
+                    <label> Login </label>
+                    <input type="tekst"  ng-model="login">
+                </div>
+                <div class="jw">
+                    <label>Haslo</label>
+                    <input type="password" ng-model="haslo">
+
+                </div>
+
+                <div class="jg">
+                    <span   class="btn btn-success" ng-click="loguj()"> Logowanie </span>
+                </div>
+
+            </div>
+
+        </div>
+
+         <!--   <div  ng-show="$storage.zalogowany"  class="container-fluid boxed">
+                <ng-include src="'partials/topBar.html'"></ng-include>
+
+
+                <div data-ng-view="" class="row no-gutters">
+                </div>
+
+            </div>
+            -->
+
+
+
+
+
+
+        <script>
+            var app = angular.module('myApp', ['angular-md5', 'ngSanitize','ngStorage']);
+            app.controller('myCtrl', function ($scope, $interval, md5, $http, $sce, $localStorage) {
+
+                $scope.$storage = $localStorage;
+
+                $scope.$storage.users = {};
+
+                $scope.wybrany = -1;
+
+                $scope.selstud = function(id)
+                {
+                    $scope.wybrany = id;
+                }
+
+                $scope.wybranyclass = function(id)
+                {
+                    return ($scope.wybrany == id ? ' active' : '');
+                }
+//                            $scope.zalogowany = false;
+//                            $scope.sid = "";
+//
+//                            $scope.zalogowany na $scope.$storage.zalogowany
+//                            $scope.sid na $scope.$storage.sid
+//
+//                            $scope.zalogowany = $lo
+
+                //https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=369pass=38f99abbc1d339c277c0669e7bc373c0
+
+
+                $scope.loguj = function ()
+                {
+                    $scope.$storage.zalogowany = true;
+                    var hasloMd5 = md5.createHash($scope.haslo);
+                    $http.get("https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=" + $scope.login + "&pass=" + hasloMd5).then(
+                        function (e) {
+                            if (e.data.status == undefined)
+                            {
+
+                                $scope.$storage.zalogowany = true;
+                                $scope.$storage.sid = e.data;
+                                $scope.zalogowani();
+                                $scope.wiadomosci();
+
+
+
+                            } else
+                            {
+                                $scope.$storage.zalogowany = true;
+
+                            }
+
+                        },
+                        function (e) {
+                            $scope.$storage.zalogowany = false;
+                        }
+
+
+
+                    )
+                }
+
+
+                $scope.zalogowani = function ()
+                {
+
+                    if ($scope.$storage.zalogowany)
+                    {
+                        $http.get("https://czat.wsi.edu.pl/api/studentlista?uid=" + $scope.$storage.sid)
+                            .then(
+                                function (e) {
+
+                                    angular.forEach(e.data.students, function(student, klucz){
+                                        $scope.$storage.users[student.id] = student;
+                                    });
+
+                                    $scope.listastud = e.data.students;
+                                },
+                                function (e) {}
+                            );
+
+
+                    }
+                }
+
+
+
+                $scope.wiadomosci = function () {
+                    if ($scope.$storage.zalogowany) {
+                        $http.get("https://czat.wsi.edu.pl/api/messlist?uid=" + $scope.$storage.sid)
+                            .then(
+                                function (e) {
+
+                                    if(e.data.status==false)
+                                        $scope.$storage.zalogowany = false;
+
+                                    $scope.listawiad = e.data.mess;
+                                },
+                                function (e) {
+                                }
+                            );
+
+                    }
+                }
+                $interval($scope.wiadomosci, 10000);
+
+                $interval($scope.zalogowani, 210000);
+
+
+
+                $scope.zalogowani();
+                $scope.wiadomosci();
+
+                $scope.wyslij = function () {
+                    if ($scope.$storage.zalogowany) {
+                        $http.get("https://czat.wsi.edu.pl/api/addmess?mess=" + $scope.textMess +"&user_dest="+ $scope.wybrany + "&uid=" + $scope.$storage.sid)
+                            .then(
+                                function (e) {
+                                    $scope.textMess = "";
+                                    $scope.wiadomosci();
+                                },
+                                function (e) {
+                                }
+                            );
+
+                    }
+                }
+                $scope.filtrujwiad= function(wybrany){
+                    return function (item){
+                        //console.log(item);
+                        return item.user_dest == wybrany || (item.user_id == wybrany && item.user_dest != wybrany);
+                    }
+
+                }
+                $scope.wyloguj=function(){
+                    $scope.$storage.zalogowany = false;
+                }
+            });
+        </script>
+    </body>
+</html>

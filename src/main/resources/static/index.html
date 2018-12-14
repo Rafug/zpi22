@@ -1,0 +1,196 @@
+<!doctype html>
+<html  ng-app="myApp" ng-controller="masterCtrl" xmlns:ng-model="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>System do wyznaczania częstotliwości granicznej</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+          crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="angular-md5.js"></script>
+    <script src="js/mainApp.js"></script>
+    <script src="js/controllers/masterCtrl.js"></script>
+
+
+</head>
+
+<body background="http://www.naukaipostep.pl/wp-content/uploads/2012/01/1370477_67072439.jpg">
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<div b ng-show="!$storage.zalogowany">
+
+    <div class="jx">
+        <label> Login </label>
+        <input type="tekst"  ng-model="login">
+    </div>
+    <div class="jw">
+        <label>Haslo</label>
+        <input type="password" ng-model="haslo">
+
+    </div>
+
+    <div class="jg">
+        <span   class="btn btn-success" ng-click="loguj()"> Logowanie </span>
+    </div>
+
+</div>
+
+
+
+
+<!-- <script>
+            var app = angular.module('myApp2', ['angular-md5', 'ngSanitize','ngStorage']);
+            app.controller('myCtrl2', function ($scope, $interval, md5, $http, $sce, $localStorage) {
+
+                $scope.$storage = $localStorage;
+
+                $scope.$storage.users = {};
+
+                $scope.wybrany = -1;
+
+                $scope.selstud = function(id)
+                {
+                    $scope.wybrany = id;
+                }
+
+                $scope.wybranyclass = function(id)
+                {
+                    return ($scope.wybrany == id ? ' active' : '');
+                }
+//                            $scope.zalogowany = false;
+//                            $scope.sid = "";
+//
+//                            $scope.zalogowany na $scope.$storage.zalogowany
+//                            $scope.sid na $scope.$storage.sid
+//
+//                            $scope.zalogowany = $lo
+
+                //https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=369pass=38f99abbc1d339c277c0669e7bc373c0
+
+
+                $scope.loguj = function ()
+                {
+                    var hasloMd5 = md5.createHash($scope.haslo);
+                    $http.get("https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=" + $scope.login + "&pass=" + hasloMd5).then(
+                        function (e) {
+                            if (e.data.status == undefined)
+                            {
+
+                                $scope.$storage.zalogowany = true;
+                                $scope.$storage.sid = e.data;
+                                $scope.zalogowani();
+                                $scope.wiadomosci();
+
+
+
+                            } else
+                            {
+                                $scope.$storage.zalogowany = false;
+
+                            }
+
+                        },
+                        function (e) {
+                            $scope.$storage.zalogowany = false;
+                        }
+
+
+
+                    )
+                }
+
+
+                $scope.zalogowani = function ()
+                {
+
+                    if ($scope.$storage.zalogowany)
+                    {
+                        $http.get("https://czat.wsi.edu.pl/api/studentlista?uid=" + $scope.$storage.sid)
+                            .then(
+                                function (e) {
+
+                                    angular.forEach(e.data.students, function(student, klucz){
+                                        $scope.$storage.users[student.id] = student;
+                                    });
+
+                                    $scope.listastud = e.data.students;
+                                },
+                                function (e) {}
+                            );
+
+
+                    }
+                }
+
+
+
+                $scope.wiadomosci = function () {
+                    if ($scope.$storage.zalogowany) {
+                        $http.get("https://czat.wsi.edu.pl/api/messlist?uid=" + $scope.$storage.sid)
+                            .then(
+                                function (e) {
+
+                                    if(e.data.status==false)
+                                        $scope.$storage.zalogowany = false;
+
+                                    $scope.listawiad = e.data.mess;
+                                },
+                                function (e) {
+                                }
+                            );
+
+                    }
+                }
+                $interval($scope.wiadomosci, 10000);
+
+                $interval($scope.zalogowani, 210000);
+
+
+
+                $scope.zalogowani();
+                $scope.wiadomosci();
+
+                $scope.wyslij = function () {
+                    if ($scope.$storage.zalogowany) {
+                        $http.get("https://czat.wsi.edu.pl/api/addmess?mess=" + $scope.textMess +"&user_dest="+ $scope.wybrany + "&uid=" + $scope.$storage.sid)
+                            .then(
+                                function (e) {
+                                    $scope.textMess = "";
+                                    $scope.wiadomosci();
+                                },
+                                function (e) {
+                                }
+                            );
+
+                    }
+                }
+                $scope.filtrujwiad= function(wybrany){
+                    return function (item){
+                        //console.log(item);
+                        return item.user_dest == wybrany || (item.user_id == wybrany && item.user_dest != wybrany);
+                    }
+
+                }
+                $scope.wyloguj=function(){
+                    $scope.$storage.zalogowany = false;
+                }
+            });
+    </script> -->
+</div>
+</body>
+</html>
