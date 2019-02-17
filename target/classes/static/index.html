@@ -1,9 +1,9 @@
 <!doctype html>
-<html  ng-app="myApp" ng-controller="masterCtrl" xmlns:ng-model="http://www.w3.org/1999/xhtml">
+<html  xmlns:ng-model="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>System do wyznaczania częstotliwości granicznej</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
@@ -12,185 +12,237 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
             integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
             crossorigin="anonymous"></script>
-
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <link rel="stylesheet" href="css/style.css">
     <script src="angular-md5.js"></script>
     <script src="js/mainApp.js"></script>
     <script src="js/controllers/masterCtrl.js"></script>
 
 
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+
 </head>
 
 <body background="http://www.naukaipostep.pl/wp-content/uploads/2012/01/1370477_67072439.jpg">
-<div ng-app="myApp" ng-controller="myCtrl">
+<div > <!--  -->
 
-<div b ng-show="!$storage.zalogowany">
+    <div>
+        <form name="login">
 
-    <div class="jx">
-        <label> Login </label>
-        <input type="tekst"  ng-model="login">
+
+
+            <div class="limiter">
+                <div class="container-login100">
+                    <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
+                        <form class="login100-form validate-form flex-sb flex-w">
+					<span class="login100-form-title p-b-32">
+						Logowanie do systemu
+					</span>
+
+                            <span class="txt1 p-b-11">
+						Login
+					</span>
+                            <div class="wrap-input100 validate-input m-b-36" data-validate = "Username is required">
+                                <input class="input100" type="text" name="username" >
+                                <span class="focus-input100"></span>
+                            </div>
+
+                            <span class="txt1 p-b-11">
+						Hasło
+					</span>
+                            <div class="wrap-input100 validate-input m-b-12" data-validate = "Password is required">
+						<span class="btn-show-pass" >
+							<i class="fa fa-eye" ></i>
+						</span>
+                                <input class="input100" type="password" name="pass" >
+                                <span class="focus-input100"></span>
+                            </div>
+
+
+                            <div class="container-login100-form-btn">
+                                <button class="login100-form-btn" onclick="check(this.form)" >
+                                    Loguj
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="dropDownSelect1"></div>
+
+
+
+
+
+
+
+
+
+
+            <!--  <div class="jx">
+                 <label> Login </label>
+                 <input type="text"  ng-model="username" placeholder="Wprowadź login" name="userid">
+             </div>
+             <div class="jw">
+                 <label>Haslo</label>
+                 <input type="password" ng-model="password" placeholder="Wprowadź hasło" name="pswrd" >
+             </div>
+             <div class="jg">
+                 <input type="button" onclick="check(this.form)" value="Login"/>
+             </div> -->
+        </form>
     </div>
-    <div class="jw">
-        <label>Haslo</label>
-        <input type="password" ng-model="haslo">
-
-    </div>
-
-    <div class="jg">
-        <span   class="btn btn-success" ng-click="loguj()"> Logowanie </span>
-    </div>
-
-</div>
 
 
+    <script language="javascript">
+        function check(form)
+        {
+            if(form.username.value == "admin" && form.pass.value == "wsiz")
+            {
+                window.open("localhost:8445/test.html")
+            }
+            else
+            {
+                alert("Proszę wprowadzić poprawny login i hasło")
+            }
+        }
+    </script>
 
-
-<!-- <script>
-            var app = angular.module('myApp2', ['angular-md5', 'ngSanitize','ngStorage']);
-            app.controller('myCtrl2', function ($scope, $interval, md5, $http, $sce, $localStorage) {
-
-                $scope.$storage = $localStorage;
-
-                $scope.$storage.users = {};
-
-                $scope.wybrany = -1;
-
-                $scope.selstud = function(id)
-                {
-                    $scope.wybrany = id;
-                }
-
-                $scope.wybranyclass = function(id)
-                {
-                    return ($scope.wybrany == id ? ' active' : '');
-                }
-//                            $scope.zalogowany = false;
-//                            $scope.sid = "";
-//
-//                            $scope.zalogowany na $scope.$storage.zalogowany
-//                            $scope.sid na $scope.$storage.sid
-//
-//                            $scope.zalogowany = $lo
-
-                //https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=369pass=38f99abbc1d339c277c0669e7bc373c0
-
-
-                $scope.loguj = function ()
-                {
-                    var hasloMd5 = md5.createHash($scope.haslo);
-                    $http.get("https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=" + $scope.login + "&pass=" + hasloMd5).then(
-                        function (e) {
-                            if (e.data.status == undefined)
-                            {
-
-                                $scope.$storage.zalogowany = true;
-                                $scope.$storage.sid = e.data;
-                                $scope.zalogowani();
-                                $scope.wiadomosci();
-
-
-
-                            } else
-                            {
-                                $scope.$storage.zalogowany = false;
-
-                            }
-
-                        },
-                        function (e) {
-                            $scope.$storage.zalogowany = false;
-                        }
-
-
-
-                    )
-                }
-
-
-                $scope.zalogowani = function ()
-                {
-
-                    if ($scope.$storage.zalogowany)
+    <!-- <script>
+                var app = angular.module('myApp2', ['angular-md5', 'ngSanitize','ngStorage']);
+                app.controller('myCtrl2', function ($scope, $interval, md5, $http, $sce, $localStorage) {
+                    $scope.$storage = $localStorage;
+                    $scope.$storage.users = {};
+                    $scope.wybrany = -1;
+                    $scope.selstud = function(id)
                     {
-                        $http.get("https://czat.wsi.edu.pl/api/studentlista?uid=" + $scope.$storage.sid)
-                            .then(
-                                function (e) {
-
-                                    angular.forEach(e.data.students, function(student, klucz){
-                                        $scope.$storage.users[student.id] = student;
-                                    });
-
-                                    $scope.listastud = e.data.students;
-                                },
-                                function (e) {}
-                            );
-
-
+                        $scope.wybrany = id;
                     }
-                }
-
-
-
-                $scope.wiadomosci = function () {
-                    if ($scope.$storage.zalogowany) {
-                        $http.get("https://czat.wsi.edu.pl/api/messlist?uid=" + $scope.$storage.sid)
-                            .then(
-                                function (e) {
-
-                                    if(e.data.status==false)
-                                        $scope.$storage.zalogowany = false;
-
-                                    $scope.listawiad = e.data.mess;
-                                },
-                                function (e) {
-                                }
-                            );
-
+                    $scope.wybranyclass = function(id)
+                    {
+                        return ($scope.wybrany == id ? ' active' : '');
                     }
-                }
-                $interval($scope.wiadomosci, 10000);
-
-                $interval($scope.zalogowani, 210000);
-
-
-
-                $scope.zalogowani();
-                $scope.wiadomosci();
-
-                $scope.wyslij = function () {
-                    if ($scope.$storage.zalogowany) {
-                        $http.get("https://czat.wsi.edu.pl/api/addmess?mess=" + $scope.textMess +"&user_dest="+ $scope.wybrany + "&uid=" + $scope.$storage.sid)
-                            .then(
-                                function (e) {
-                                    $scope.textMess = "";
+    //                            $scope.zalogowany = false;
+    //                            $scope.sid = "";
+    //
+    //                            $scope.zalogowany na $scope.$storage.zalogowany
+    //                            $scope.sid na $scope.$storage.sid
+    //
+    //                            $scope.zalogowany = $lo
+                    //https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=369pass=38f99abbc1d339c277c0669e7bc373c0
+                    $scope.loguj = function ()
+                    {
+                        var hasloMd5 = md5.createHash($scope.haslo);
+                        $http.get("https://dziekanat.wsi.edu.pl/get/wd-auth/auth?album=" + $scope.login + "&pass=" + hasloMd5).then(
+                            function (e) {
+                                if (e.data.status == undefined)
+                                {
+                                    $scope.$storage.zalogowany = true;
+                                    $scope.$storage.sid = e.data;
+                                    $scope.zalogowani();
                                     $scope.wiadomosci();
-                                },
-                                function (e) {
+                                } else
+                                {
+                                    $scope.$storage.zalogowany = false;
                                 }
-                            );
-
+                            },
+                            function (e) {
+                                $scope.$storage.zalogowany = false;
+                            }
+                        )
                     }
-                }
-                $scope.filtrujwiad= function(wybrany){
-                    return function (item){
-                        //console.log(item);
-                        return item.user_dest == wybrany || (item.user_id == wybrany && item.user_dest != wybrany);
+                    $scope.zalogowani = function ()
+                    {
+                        if ($scope.$storage.zalogowany)
+                        {
+                            $http.get("https://czat.wsi.edu.pl/api/studentlista?uid=" + $scope.$storage.sid)
+                                .then(
+                                    function (e) {
+                                        angular.forEach(e.data.students, function(student, klucz){
+                                            $scope.$storage.users[student.id] = student;
+                                        });
+                                        $scope.listastud = e.data.students;
+                                    },
+                                    function (e) {}
+                                );
+                        }
                     }
-
-                }
-                $scope.wyloguj=function(){
-                    $scope.$storage.zalogowany = false;
-                }
-            });
-    </script> -->
+                    $scope.wiadomosci = function () {
+                        if ($scope.$storage.zalogowany) {
+                            $http.get("https://czat.wsi.edu.pl/api/messlist?uid=" + $scope.$storage.sid)
+                                .then(
+                                    function (e) {
+                                        if(e.data.status==false)
+                                            $scope.$storage.zalogowany = false;
+                                        $scope.listawiad = e.data.mess;
+                                    },
+                                    function (e) {
+                                    }
+                                );
+                        }
+                    }
+                    $interval($scope.wiadomosci, 10000);
+                    $interval($scope.zalogowani, 210000);
+                    $scope.zalogowani();
+                    $scope.wiadomosci();
+                    $scope.wyslij = function () {
+                        if ($scope.$storage.zalogowany) {
+                            $http.get("https://czat.wsi.edu.pl/api/addmess?mess=" + $scope.textMess +"&user_dest="+ $scope.wybrany + "&uid=" + $scope.$storage.sid)
+                                .then(
+                                    function (e) {
+                                        $scope.textMess = "";
+                                        $scope.wiadomosci();
+                                    },
+                                    function (e) {
+                                    }
+                                );
+                        }
+                    }
+                    $scope.filtrujwiad= function(wybrany){
+                        return function (item){
+                            //console.log(item);
+                            return item.user_dest == wybrany || (item.user_id == wybrany && item.user_dest != wybrany);
+                        }
+                    }
+                    $scope.wyloguj=function(){
+                        $scope.$storage.zalogowany = false;
+                    }
+                });
+        </script> -->
 </div>
+
+
+
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="vendor/select2/select2.min.js"></script>
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<script src="js/main.js"></script>
+
+
+
 </body>
 </html>
